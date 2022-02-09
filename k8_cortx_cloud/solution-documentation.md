@@ -1,7 +1,7 @@
 # Solution Documentation
 
-The CORTX solution consists of all paramaters required to deploy CORTX cloud. The pre-req, deploy,
-and destroy scripts parse the solution file and extract information they need to deploy and destroy
+The CORTX solution consists of all paramaters required to deploy CORTX cloud. The pre-req, create,
+and delete scripts parse the solution file and extract information they need to deploy and delete
 the CORTX cloud.
 
 ## 1. Namespace (solution.namespace)

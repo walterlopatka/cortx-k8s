@@ -352,9 +352,9 @@ After this step proceed to section 4 - Using CORTX
 
 If the pods are not coming up correctly or some of the hctl status services never switch to "started" - check solutions.yaml. Typos or mistakes in that file will result in a deployment failure.
 
-### 3.6 Destroy CORTX cluster
-To rollback step 3.5 and destroy the CORTX cluster run:
-ssh $SSH_FLAGS centos@$ClusterControlPlaneIP "cd cortx-k8s/k8_cortx_cloud/; ./destroy-cortx-cloud.sh"
+### 3.6 Delete CORTX cluster
+To rollback step 3.5 and delete the CORTX cluster run:
+ssh $SSH_FLAGS centos@$ClusterControlPlaneIP "cd cortx-k8s/k8_cortx_cloud/; ./delete-cortx-cloud.sh"
 
 ### 3.7 Stop CORTX cluster
 Make sure no IO is coming to the cluster before stopping it

@@ -278,7 +278,7 @@ function deployRancherProvisioner()
         printf "Install Rancher Local Path Provisioner"
         rancher_prov_path="$(pwd)/cortx-cloud-3rd-party-pkg/auto-gen-rancher-provisioner"
         # Clean up auto gen Rancher Provisioner folder in case it still exists and was not
-        # clearned up previously by the destroy-cortx-cloud script.
+        # clearned up previously by the delete-cortx-cloud script.
         rm -rf $rancher_prov_path
         mkdir -p $rancher_prov_path
         rancher_prov_file="$rancher_prov_path/local-path-storage.yaml"

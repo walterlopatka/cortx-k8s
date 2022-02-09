@@ -133,7 +133,7 @@ done <<< "$(kubectl get namespaces)"
 num_motr_client=$(extractBlock 'solution.common.motr.num_client_inst')
 
 #############################################################
-# Destroy CORTX Cloud functions
+# Delete CORTX Cloud functions
 #############################################################
 function deleteCortxClient()
 {
@@ -277,7 +277,7 @@ function deleteCortxConfigmap()
 }
 
 #############################################################
-# Destroy CORTX 3rd party functions
+# Delete CORTX 3rd party functions
 #############################################################
 function deleteKafkaZookeper()
 {
@@ -503,7 +503,7 @@ function cleanup()
 }
 
 #############################################################
-# Destroy CORTX Cloud
+# Delete CORTX Cloud
 #############################################################
 if [[ $num_motr_client -gt 0 ]]; then
     deleteCortxClient
@@ -520,7 +520,7 @@ deleteCortxPVs
 deleteCortxConfigmap
 
 #############################################################
-# Destroy CORTX 3rd party
+# Delete CORTX 3rd party
 #############################################################
 found_match_np=false
 for np in "${namespace_list[@]}"; do

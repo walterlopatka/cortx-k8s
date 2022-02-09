@@ -119,7 +119,7 @@ If you have direct access to the underlying Kubernetes Nodes in your cluster, CO
    sudo ./prereq-deploy-cortx-cloud.sh <disk> [<solution-file>]
    ```
 
-   :information_source: `<solution-file>` is an optional input to run `prereq-deploy-cortx-cloud.sh` script. Make sure to use the same solution file for prereqs, deploy and destroy scripts. The default `<solution-file>` is `solution.yaml`.
+   :information_source: `<solution-file>` is an optional input to run `prereq-deploy-cortx-cloud.sh` script. Make sure to use the same solution file for prereqs, create and delete scripts. The default `<solution-file>` is `solution.yaml`.
 
 ### Deploying CORTX on Kubernetes
 
@@ -198,15 +198,15 @@ To gather logs from a CORTX on Kubernetes deployment, run the `logs-cortx-cloud.
 
 ### Undeploying CORTX on Kubernetes
 
-Run the `destroy-cortx-cloud.sh` script, passing in the path to the previously updated `solution.yaml` file
+Run the `delete-cortx-cloud.sh` script, passing in the path to the previously updated `solution.yaml` file
 
 ```bash
-./destroy-cortx-cloud.sh solution.yaml
+./delete-cortx-cloud.sh solution.yaml
 ```
 
 ## Solution YAML Overview
 
-The CORTX solution consists of all paramaters required to deploy CORTX on Kubernetes. The pre-req, deploy, and destroy scripts parse the solution file and extract information they need to deploy and destroy CORTX.
+The CORTX solution consists of all paramaters required to deploy CORTX on Kubernetes. The pre-req, deploy, and delete scripts parse the solution file and extract information they need to deploy and delete CORTX.
 
 All paths below are prefixed with `solution.` for fully-qualified naming.
 ### Global parameters
