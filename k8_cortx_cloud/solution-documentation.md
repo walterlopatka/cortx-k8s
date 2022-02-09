@@ -1,11 +1,11 @@
 # Solution Documentation
 
-The CORTX solution consists of all paramaters required to deploy CORTX cloud. The pre-req, create,
-and delete scripts parse the solution file and extract information they need to deploy and delete
-the CORTX cloud.
+The CORTX solution consists of all paramaters required to create CORTX cloud in your
+Kubernetes cluster. The pre-req, create, and delete scripts parse the solution file
+and extract information they need to create and delete the CORTX cloud.
 
 ## 1. Namespace (solution.namespace)
-   The kubernetes namespace for CORTX Control/Data to be deployed in.
+   The kubernetes namespace for CORTX Control/Data to be created in.
 
 ## 2. Secrets (solution.secrets)
    * Name of the CORTX secret is defined in "solution.secrets.name".
@@ -19,7 +19,7 @@ the CORTX cloud.
       * CSM management
 
 ## 3. Images (solution.images)
-   This section contains the CORTX and third party images which are used to deploy CORTX cloud.
+   This section contains the CORTX and third party images which are used to create CORTX cloud.
 
 ## 4. Common (solution.common)
    This section contains common paramaters that applies to all the CORTX data nodes.   
@@ -68,5 +68,5 @@ the CORTX cloud.
    (Placeholder for CORTX to provide CVG info/details)
 
 ## 6. Nodes (solution.nodes)
-   This section contains information about all the worker nodes used to deploy CORTX cloud cluster. All nodes
+   This section contains information about all the worker nodes used to create CORTX cloud. All nodes
    must have all the metadata and data drives mentioned in the "Storage" section above.

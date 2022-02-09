@@ -28,7 +28,7 @@ fi
 if [[ "$disk" == "" && "$is_master_node" = false ]]
 then
     echo "Invalid input paramters"
-    echo "./prereq-deploy-cortx-cloud.sh <disk-partition> [<solution-yaml-file>]"
+    echo "./prereq-create-cortx-cloud.sh <disk-partition> [<solution-yaml-file>]"
     exit 1
 fi
 

@@ -66,7 +66,7 @@ printf "Number of worker nodes detected: $num_worker_nodes\n"
 
 
 # Check for nodes listed in the solution file are in "Ready" state. If not, ask
-# the users whether they want to continue to deploy or exit early
+# the users whether they want to continue to create or exit early
 exit_early=false
 if [ $not_ready_node_count -gt 0 ]; then
     echo "Number of 'NotReady' worker nodes detected in the cluster: $not_ready_node_count"
@@ -130,7 +130,7 @@ do
 done
 # Print a list of tainted nodes and nodes that don't exist in the cluster
 if [[ $num_tainted_worker_nodes -gt 0 || $num_not_found_nodes -gt 0 ]]; then
-    echo "Can't deploy CORTX cloud."
+    echo "Can't create CORTX cloud."
     if [[ $num_tainted_worker_nodes -gt 0 ]]; then
         echo "List of tainted nodes:"
         for tainted_node_name in "${tainted_worker_node_list[@]}"; do
@@ -238,9 +238,9 @@ while IFS= read -r line; do
 done <<< "$(kubectl get namespaces)"
 
 ##########################################################
-# Deploy CORTX k8s pre-reqs
+# Create CORTX k8s pre-reqs
 ##########################################################
-function deployKubernetesPrereqs()
+function createKubernetesPrereqs()
 {
 
     ## PodSecurityPolicies are Cluster-scoped, so Helm doesn't handle it smoothly
@@ -266,9 +266,9 @@ function deployKubernetesPrereqs()
 
 
 ##########################################################
-# Deploy CORTX 3rd party
+# Create CORTX 3rd party
 ##########################################################
-function deployRancherProvisioner()
+function createRancherProvisioner()
 {
     # Add the HashiCorp Helm Repository:
     helm repo add hashicorp https://helm.releases.hashicorp.com
@@ -296,10 +296,10 @@ function deployRancherProvisioner()
     fi
 }
 
-function deployConsul()
+function createConsul()
 {
     printf "######################################################\n"
-    printf "# Deploy Consul                                       \n"
+    printf "# Create Consul                                       \n"
     printf "######################################################\n"
     image=$(parseSolution 'solution.images.consul')
     image=$(echo $image | cut -f2 -d'>')
@@ -334,10 +334,10 @@ function deployConsul()
 
 }
 
-function deployOpenLDAP()
+function createOpenLDAP()
 {
     printf "######################################################\n"
-    printf "# Deploy openLDAP                                     \n"
+    printf "# Create openLDAP                                     \n"
     printf "######################################################\n"
     openldap_password=$(parseSolution 'solution.secrets.content.openldap_admin_secret')
     openldap_password=$(echo $openldap_password | cut -f2 -d'>')
@@ -399,10 +399,10 @@ function splitDockerImage()
     tag="${tag[1]}"
 }
 
-function deployZookeeper()
+function createZookeeper()
 {
     printf "######################################################\n"
-    printf "# Deploy Zookeeper                                    \n"
+    printf "# Create Zookeeper                                    \n"
     printf "######################################################\n"
     # Add Zookeeper and Kafka Repository
     helm repo add bitnami https://charts.bitnami.com/bitnami
@@ -456,10 +456,10 @@ function deployZookeeper()
     sleep 2s
 }
 
-function deployKafka()
+function createKafka()
 {
     printf "######################################################\n"
-    printf "# Deploy Kafka                                        \n"
+    printf "# Create Kafka                                        \n"
     printf "######################################################\n"
 
     image=$(parseSolution 'solution.images.kafka')
@@ -540,12 +540,12 @@ function waitForThirdParty()
 }
 
 ##########################################################
-# CORTX cloud deploy functions
+# CORTX cloud create functions
 ##########################################################
-function deployCortxLocalBlockStorage()
+function createCortxLocalBlockStorage()
 {
     printf "######################################################\n"
-    printf "# Deploy CORTX Local Block Storage                    \n"
+    printf "# Create CORTX Local Block Storage                    \n"
     printf "######################################################\n"
     helm install "cortx-data-blk-data-$namespace" cortx-cloud-helm-pkg/cortx-data-blk-data \
         --set cortxblkdata.storageclass="cortx-local-blk-storage-$namespace" \
@@ -569,10 +569,10 @@ function deleteStaleAutoGenFolders()
     done
 }
 
-function deployCortxConfigMap()
+function createCortxConfigMap()
 {
     printf "########################################################\n"
-    printf "# Deploy CORTX Configmap                                \n"
+    printf "# Create CORTX Configmap                                \n"
     printf "########################################################\n"
     # Create node template folder
     node_info_folder="$cfgmap_path/node-info-$namespace"
@@ -834,10 +834,10 @@ function deployCortxConfigMap()
     echo $kubectl_cmd_output
 }
 
-function deployCortxSecrets()
+function createCortxSecrets()
 {
     printf "########################################################\n"
-    printf "# Deploy CORTX Secrets                                  \n"
+    printf "# Create CORTX Secrets                                  \n"
     printf "########################################################\n"
     # Parse secret from the solution file and create all secret yaml files
     # in the "auto-gen-secret" folder
@@ -917,10 +917,10 @@ function waitForAllDeploymentsAvailable()
 }
 
 
-function deployCortxControl()
+function createCortxControl()
 {
     printf "########################################################\n"
-    printf "# Deploy CORTX Control                                  \n"
+    printf "# Create CORTX Control                                  \n"
     printf "########################################################\n"
 
     cortxcontrol_image=$(parseSolution 'solution.images.cortxcontrol')
@@ -962,10 +962,10 @@ function deployCortxControl()
     printf "\n\n"
 }
 
-function deployCortxData()
+function createCortxData()
 {
     printf "########################################################\n"
-    printf "# Deploy CORTX Data                                     \n"
+    printf "# Create CORTX Data                                     \n"
     printf "########################################################\n"
     cortxdata_image=$(parseSolution 'solution.images.cortxdata')
     cortxdata_image=$(echo $cortxdata_image | cut -f2 -d'>')
@@ -1021,10 +1021,10 @@ function deployCortxData()
 }
 
 
-function deployCortxServer()
+function createCortxServer()
 {
     printf "########################################################\n"
-    printf "# Deploy CORTX Server                                   \n"
+    printf "# Create CORTX Server                                   \n"
     printf "########################################################\n"
     cortxserver_image=$(parseSolution 'solution.images.cortxserver')
     cortxserver_image=$(echo $cortxserver_image | cut -f2 -d'>')
@@ -1082,10 +1082,10 @@ function deployCortxServer()
     printf "\n\n"
 }
 
-function deployCortxHa()
+function createCortxHa()
 {
     printf "########################################################\n"
-    printf "# Deploy CORTX HA                                       \n"
+    printf "# Create CORTX HA                                       \n"
     printf "########################################################\n"
     cortxha_image=$(parseSolution 'solution.images.cortxha')
     cortxha_image=$(echo $cortxha_image | cut -f2 -d'>')
@@ -1125,10 +1125,10 @@ function deployCortxHa()
     printf "\n\n"
 }
 
-function deployCortxClient()
+function createCortxClient()
 {
     printf "########################################################\n"
-    printf "# Deploy CORTX Client                                   \n"
+    printf "# Create CORTX Client                                   \n"
     printf "########################################################\n"
     cortxclient_image=$(parseSolution 'solution.images.cortxclient')
     cortxclient_image=$(echo $cortxclient_image | cut -f2 -d'>')
@@ -1192,10 +1192,10 @@ function deployCortxClient()
     printf "\n\n"
 }
 
-function deployCortxServices()
+function createCortxServices()
 {
     printf "########################################################\n"
-    printf "# Deploy Services                                       \n"
+    printf "# Create Services                                       \n"
     printf "########################################################\n"
     kubectl apply -f services/cortx-io-svc.yaml --namespace=$namespace
 }
@@ -1221,12 +1221,12 @@ function cleanup()
 }
 
 ##########################################################
-# Deploy Kubernetes prerequisite configurations
+# Create Kubernetes prerequisite configurations
 ##########################################################
-deployKubernetesPrereqs
+createKubernetesPrereqs
 
 ##########################################################
-# Deploy CORTX 3rd party
+# Create CORTX 3rd party
 ##########################################################
 found_match_nsp=false
 for np in "${namespace_list[@]}"; do
@@ -1255,16 +1255,16 @@ if [[ "$num_worker_nodes" -gt "$max_kafka_inst" ]]; then
 fi
 
 if [[ (${#namespace_list[@]} -le 1 && "$found_match_nsp" = true) || "$namespace" == "default" ]]; then
-    deployRancherProvisioner
-    deployConsul
-    deployOpenLDAP
-    deployZookeeper
-    deployKafka
+    createRancherProvisioner
+    createConsul
+    createOpenLDAP
+    createZookeeper
+    createKafka
     waitForThirdParty
 fi
 
 ##########################################################
-# Deploy CORTX cloud
+# Create CORTX cloud
 ##########################################################
 # Get the storage paths to use
 local_storage=$(parseSolution 'solution.common.container_path.local')
@@ -1293,16 +1293,16 @@ done
 
 num_motr_client=$(extractBlock 'solution.common.motr.num_client_inst')
 
-deployCortxLocalBlockStorage
+createCortxLocalBlockStorage
 deleteStaleAutoGenFolders
-deployCortxConfigMap
-deployCortxSecrets
-deployCortxControl
-deployCortxData
-deployCortxServer
-deployCortxHa
+createCortxConfigMap
+createCortxSecrets
+createCortxControl
+createCortxData
+createCortxServer
+createCortxHa
 if [[ $num_motr_client -gt 0 ]]; then
-    deployCortxClient
+    createCortxClient
 fi
-deployCortxServices
+createCortxServices
 cleanup

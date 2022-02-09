@@ -42,7 +42,7 @@ This procedure was tested within the following limits:
 - Number of Motr (data+metadata) drives per node: 3 - 21 
   - A configuration of 100+ drives per node was also tested outside of AWS
 
-If you already have a suitable Kubernetes cluster please proceed to step 3 - CORTX Deployment
+If you already have a suitable Kubernetes cluster please proceed to step 3 - CORTX Creation
 
 ### 2.1 Define basic cluster configuration
 ```
@@ -279,7 +279,7 @@ mv ./cortx-k8s/k8_cortx_cloud/solution.yaml ./cortx-k8s/k8_cortx_cloud/solution.
 
 
   ##### Data and metadata protection
-  Current CORTX deployment script expects identical storage layout on all nodes. In the example above we're adding 2 volume groups (CVGs) per node.
+  Current CORTX creation script expects identical storage layout on all nodes. In the example above we're adding 2 volume groups (CVGs) per node.
 
   SNS refers to data protection, and is defined as "N+K+S"
   * N - number of data chunks
@@ -314,7 +314,7 @@ It will configure storage for the 3rd party applications and make additional pre
 AWS EC2 instances provisioned on step 2.2 have 1 disk for 3rd party apps (/dev/nvme7n1)
 
 ```
-for ip in $ClusterIPs; do echo $ip; ssh $SSH_FLAGS centos@$ip "cd cortx-k8s/k8_cortx_cloud; sudo ./prereq-deploy-cortx-cloud.sh /dev/$LogsDevice" </dev/null & done
+for ip in $ClusterIPs; do echo $ip; ssh $SSH_FLAGS centos@$ip "cd cortx-k8s/k8_cortx_cloud; sudo ./prereq-create-cortx-cloud.sh /dev/$LogsDevice" </dev/null & done
 ```
 
 #### 3.4.1 Install Helm on the cluster control plane
@@ -323,10 +323,10 @@ Current script version doesn't deploy Helm - it will be fixed later.
 ssh $SSH_FLAGS centos@$ClusterControlPlaneIP "curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3; chmod 700 get_helm.sh; ./get_helm.sh"
 ```
 
-### 3.5 Deploy CORTX
+### 3.5 Create CORTX
 > **NOTE**: For Motr + Hare only cortx cluster make number of s3 instance as 0 (solution -> common -> s3 -> num_inst) in cortx-k8s/k8_cortx_cloud/solution.yaml
 ```
-ssh $SSH_FLAGS centos@$ClusterControlPlaneIP "cd cortx-k8s/k8_cortx_cloud/; ./deploy-cortx-cloud.sh"
+ssh $SSH_FLAGS centos@$ClusterControlPlaneIP "cd cortx-k8s/k8_cortx_cloud/; ./create-cortx-cloud.sh"
 
 ```
 <b> This step completes CORTX installation </b>
