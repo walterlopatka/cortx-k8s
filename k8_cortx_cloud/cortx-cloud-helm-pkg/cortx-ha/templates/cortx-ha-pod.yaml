@@ -42,8 +42,9 @@ spec:
                   fieldPath: metadata.labels['cortx.io/machine-id']
         {{- end }}
         - name: local-path-pv
-          persistentVolumeClaim:
-            claimName: {{ .Values.cortxha.localpathpvc.name }}
+          emptyDir: {}
+          #persistentVolumeClaim:
+          #  claimName: {{ .Values.cortxha.localpathpvc.name }}
         {{- range .Files.Lines .Values.cortxha.secretinfo }}
         - name: {{ printf "%s" . }}
           secret:
